@@ -34,3 +34,7 @@ module DijkstraTests =
     [<Property>]
     let ``All paths start with the start-vertex`` (ValidGraph graph) =
         (graph |> solve |> List.head) = start
+
+    [<Property>]
+    let ``All paths end with the goal-vertex`` (ValidGraph graph) =
+        (graph |> solve |> List.last) = (graph |> goal)
