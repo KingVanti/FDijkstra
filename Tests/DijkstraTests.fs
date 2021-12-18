@@ -59,15 +59,15 @@ module DijkstraTests =
         path |> List.skip 1 |> List.map (weightIn graph) |> List.sum
 
     [<Property>]
-    let ``All paths start with the start-vertex`` (LargeGraph graph) =
+    let ``All paths start with the start-vertex`` (SmallGraph graph) =
         (graph |> solve |> List.head) = start
 
     [<Property>]
-    let ``All paths end with the goal-vertex`` (LargeGraph graph) =
+    let ``All paths end with the goal-vertex`` (SmallGraph graph) =
         (graph |> solve |> List.last) = (graph |> goal)
 
     [<Property>]
-    let ``All positions in the path are adjacent`` (LargeGraph graph) =
+    let ``All positions in the path are adjacent`` (SmallGraph graph) =
 
         let isAligned ((x1, y1), (x2, y2)) =
             let xDiff = abs (x1 - x2)
@@ -97,3 +97,8 @@ module DijkstraTests =
         path = shortest
         |> Prop.label
             $"\nFound:\t\t%A{path} (%d{length})\nShortest:\t%A{shortest} (%d{shortestLength})"
+
+    [<Property(MaxTest = 1)>]
+    let ``Works for large graphs`` (LargeGraph graph) =
+        graph |> solve |> ignore
+        true

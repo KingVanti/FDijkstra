@@ -39,7 +39,7 @@ let rec shrink (LargeGraph graph) =
 
 
 type ArbGraphs =
-    static member Any =
-        Arb.fromGenShrink (genGraphOfSize 10 |> Gen.map LargeGraph, shrink)
+    static member Large =
+        Arb.fromGenShrink (genGraphOfSize 100 |> Gen.map LargeGraph, shrink)
 
     static member Small = genGraphOfSize 4 |> Gen.map SmallGraph |> Arb.fromGen

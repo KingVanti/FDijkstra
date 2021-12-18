@@ -6,42 +6,45 @@ open Microsoft.FSharp.Collections
 
 let solveAll start vertices neighbors distanceBetween =
 
-    let distances =
+    let mutable distances =
         vertices
         |> List.toMapWithValue Int32.MaxValue
         |> Map.add start 0
 
-    let prev = vertices |> List.toMapWithValue None
+    let mutable prevs = vertices |> List.toMapWithValue None
+    let mutable unvisited = vertices |> Set.ofList
 
-    let rec searchUntilDone unvisited (distances, prevs) =
+    let distance v = distances |> Map.find v
 
-        let distance v = distances |> Map.find v
+    let findMinDistVertex = Set.toList >> List.minBy distance
 
-        let findMinDistVertex = Set.toList >> List.minBy distance
+    let isUnvisited v = unvisited |> Seq.contains v
 
-        let isUnvisited v = unvisited |> Seq.contains v
+    let check v =
 
-        let check v =
-            let checkNeighbor (distances, prev) n =
-                let alt = (distance v) + distanceBetween v n
+        unvisited <- unvisited |> Set.remove v
 
-                if alt < (distance n) then
-                    distances |> Map.add n alt, prev |> Map.add n (Some v)
-                else
-                    distances, prev
+        let checkNeighbor n =
+            let alt = (distance v) + distanceBetween v n
 
-            v
-            |> neighbors
-            |> List.filter isUnvisited
-            |> List.fold checkNeighbor (distances, prevs)
-            |> (searchUntilDone (unvisited |> Set.remove v))
+            if alt < (distance n) then
+                distances <- distances |> Map.add n alt
+                prevs <- prevs |> Map.add n (Some v)
 
+        v
+        |> neighbors
+        |> List.filter isUnvisited
+        |> List.iter checkNeighbor
+    
+    let rec searchUntilDone () =
         if unvisited |> Set.isEmpty then
-            prevs
+            ()
         else
             unvisited |> findMinDistVertex |> check
+            searchUntilDone ()
 
-    searchUntilDone (vertices |> Set.ofList) (distances, prev)
+    searchUntilDone ()
+    prevs
 
 let solve start goal vertices neighbors distance =
 
