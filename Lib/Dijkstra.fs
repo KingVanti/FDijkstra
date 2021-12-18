@@ -4,49 +4,51 @@ module ComradeVanti.FDijkstra.Dijkstra
 open System
 open Microsoft.FSharp.Collections
 
-let solveAll start vertices neighbors distance =
+let solveAll start vertices neighbors distanceBetween =
 
     let distances =
         vertices
-        |> List.map (fun v -> v, Int32.MaxValue)
-        |> Map.ofList
+        |> List.toMapWithValue Int32.MaxValue
         |> Map.add start 0
 
-    let prev = vertices |> List.map (fun v -> v, None) |> Map.ofList
+    let prev = vertices |> List.toMapWithValue None
 
-    let findMinDistVertex =
-        Set.toList
-        >> List.sortBy (fun u -> distances.[u])
-        >> List.head
+    let rec searchUntilDone unvisited (distances, prevs) =
 
-    let rec searchUntilDone unvisited (distances, prev) =
-        if unvisited |> Set.isEmpty then
-            prev
-        else
-            let u = unvisited |> findMinDistVertex
+        let distance v = distances |> Map.find v
 
-            let checkNeighbor (distances, prev) v =
-                let alt = (distances |> Map.find u) + distance u v
+        let findMinDistVertex = Set.toList >> List.minBy distance
 
-                if alt < (distances |> Map.find v) then
-                    distances |> Map.add v alt, prev |> Map.add v (Some u)
+        let isUnvisited v = unvisited |> Seq.contains v
+
+        let check v =
+            let checkNeighbor (distances, prev) n =
+                let alt = (distance v) + distanceBetween v n
+
+                if alt < (distance n) then
+                    distances |> Map.add n alt, prev |> Map.add n (Some v)
                 else
                     distances, prev
 
-            u
+            v
             |> neighbors
-            |> List.filter (fun v -> unvisited |> Seq.contains v)
-            |> List.fold checkNeighbor (distances, prev)
-            |> (searchUntilDone (unvisited |> Set.remove u))
+            |> List.filter isUnvisited
+            |> List.fold checkNeighbor (distances, prevs)
+            |> (searchUntilDone (unvisited |> Set.remove v))
+
+        if unvisited |> Set.isEmpty then
+            prevs
+        else
+            unvisited |> findMinDistVertex |> check
 
     searchUntilDone (vertices |> Set.ofList) (distances, prev)
 
 let solve start goal vertices neighbors distance =
 
-    let prev = solveAll start vertices neighbors distance
+    let prevs = solveAll start vertices neighbors distance
 
     let rec makePath current =
-        match prev.[current] with
+        match prevs.[current] with
         | Some prev -> (makePath prev) @ [ current ]
         | None -> [ current ]
 

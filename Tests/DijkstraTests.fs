@@ -94,6 +94,6 @@ module DijkstraTests =
 
         let shortestLength = shortest |> lengthIn graph
 
-        length = shortestLength
+        path = shortest
         |> Prop.label
             $"\nFound:\t\t%A{path} (%d{length})\nShortest:\t%A{shortest} (%d{shortestLength})"
