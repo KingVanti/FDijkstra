@@ -30,3 +30,7 @@ module DijkstraTests =
             (graph |> Graph.positions)
             (neighborsIn graph)
             (distanceIn graph)
+
+    [<Property>]
+    let ``All paths start with the start-vertex`` (ValidGraph graph) =
+        (graph |> solve |> List.head) = start
