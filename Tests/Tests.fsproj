@@ -37,6 +37,7 @@
         <Compile Include="Graph.fs"/>
         <Compile Include="GraphGen.fs"/>
         <Compile Include="DijkstraTests.fs"/>
+        <Compile Include="Program.fs"/>
     </ItemGroup>
 
 </Project>
