@@ -7,17 +7,17 @@
         <AssemblyName>ComradeVanti.FDijkstra.Lib</AssemblyName>
         <RootNamespace>ComradeVanti.FDijkstra</RootNamespace>
         <PackageId>ComradeVanti.FDijkstra</PackageId>
-        <PackageVersion>0.1.0</PackageVersion>
+        <PackageVersion>1.0.0</PackageVersion>
         <Title>FDijkstra</Title>
         <Authors>ComradeVanti</Authors>
-        <Description>An F# implementation of FDijkstras algorithm</Description>
-        <PackageLicenseUrl>https://unlicense.org</PackageLicenseUrl>
+        <Description>An F# implementation of Dijkstras algorithm</Description>
+        <PackageLicenseExpression>Unlicense</PackageLicenseExpression>
         <RepositoryUrl>https://github.com/KingVanti/FDijkstra</RepositoryUrl>
-        <PackageTags>dijkstra, fsharp, algorithm,</PackageTags>
+        <PackageTags>dijkstra, fsharp, algorithm, path, pathfinding, grid, graph</PackageTags>
         <Company/>
         <Product>FDijkstra</Product>
-        <AssemblyVersion>0.1.0</AssemblyVersion>
-        <FileVersion>0.1.0</FileVersion>
+        <AssemblyVersion>1.0.0</AssemblyVersion>
+        <FileVersion>1.0.0</FileVersion>
         <NeutralLanguage>en</NeutralLanguage>
     </PropertyGroup>
 
@@ -25,6 +25,7 @@
         <Compile Include="TupleUtil.fs"/>
         <Compile Include="ListExt.fs"/>
         <Compile Include="Dijkstra.fs"/>
+        <None Include="icon.png" Pack="true" Visible="false" PackagePath=""/>
     </ItemGroup>
 
 </Project>
