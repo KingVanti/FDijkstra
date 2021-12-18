@@ -1,6 +1,7 @@
 ﻿namespace ComradeVanti.FDijkstra
 
 open ComradeVanti.FDijkstra.GraphGen
+open FsCheck
 open FsCheck.Xunit
 open Microsoft.FSharp.Core
 
@@ -38,3 +39,19 @@ module DijkstraTests =
     [<Property>]
     let ``All paths end with the goal-vertex`` (ValidGraph graph) =
         (graph |> solve |> List.last) = (graph |> goal)
+
+    [<Property>]
+    let ``All positions in the path are adjacent`` (ValidGraph graph) =
+
+        let isAligned ((x1, y1), (x2, y2)) =
+            let xDiff = abs (x1 - x2)
+            let yDiff = abs (y1 - y2)
+
+            (xDiff = 1 && yDiff = 0) || xDiff = 0 && yDiff = 1
+
+        let path = graph |> solve
+
+        path
+        |> List.pairwise
+        |> List.forall isAligned
+        |> Prop.label $"Not all positions were adjacent.\nPath: %A{path}"
