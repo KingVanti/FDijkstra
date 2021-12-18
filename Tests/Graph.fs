@@ -1,16 +1,8 @@
 ﻿namespace ComradeVanti.FDijkstra
 
-type Cell = CellValue of int
+type Cell = int
 
 type Graph = Cells of Cell list list
-
-
-[<RequireQualifiedAccess>]
-module Cell =
-
-    let make = CellValue
-
-    let value (CellValue value) = value
 
 
 [<RequireQualifiedAccess>]
@@ -31,8 +23,8 @@ module Graph =
     let height graph = graph |> cells |> List.length
 
     let positions graph =
-        let h = graph |> height
-        let w = graph |> width
+        let h = (graph |> height) - 1
+        let w = (graph |> width) - 1
 
         seq {
             for y in [ 0 .. h ] do

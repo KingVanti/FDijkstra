@@ -4,7 +4,7 @@ open FsCheck
 
 
 
-let genCell = Gen.choose (1, 10) |> Gen.map Cell.make
+let genCell: Gen<Cell> = Gen.choose (1, 10)
 
 let genGraphOfSize s =
     genCell
@@ -12,12 +12,11 @@ let genGraphOfSize s =
     |> Gen.listOfLength s
     |> Gen.map Graph.make
 
-let genGraph = Gen.sized <| genGraphOfSize
+type LargeGraph = LargeGraph of Graph
 
+type SmallGraph = SmallGraph of Graph
 
-type ValidGraph = ValidGraph of Graph
-
-let rec shrink (ValidGraph graph) =
+let rec shrink (LargeGraph graph) =
     let width = (graph |> Graph.width) - 1
     let height = (graph |> Graph.height) - 1
 
@@ -29,7 +28,7 @@ let rec shrink (ValidGraph graph) =
                 |> List.take height
                 |> List.map (List.take width)
                 |> Graph.make
-                |> ValidGraph
+                |> LargeGraph
 
             yield shrunk
             yield! shrink shrunk
@@ -40,5 +39,7 @@ let rec shrink (ValidGraph graph) =
 
 
 type ArbGraphs =
-    static member Valid =
-        Arb.fromGenShrink (genGraph |> Gen.map ValidGraph, shrink)
+    static member Any =
+        Arb.fromGenShrink (genGraphOfSize 10 |> Gen.map LargeGraph, shrink)
+
+    static member Small = genGraphOfSize 4 |> Gen.map SmallGraph |> Arb.fromGen

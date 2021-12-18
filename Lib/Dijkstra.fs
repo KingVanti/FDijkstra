@@ -1,32 +1,47 @@
 ﻿[<Microsoft.FSharp.Core.RequireQualifiedAccess>]
 module ComradeVanti.FDijkstra.Dijkstra
 
-let private moveTowards g n =
-    if g < n then n - 1
-    elif g > n then n + 1
-    else n
-
-let private x = fst
-
-let private y = snd
+open System
+open Microsoft.FSharp.Collections
 
 let solve start goal vertices neighbors distance =
 
-    let rec walkTowardsGoal current =
-        seq {
-            yield current
+    let mutable distances =
+        vertices
+        |> List.map (fun v -> v, Int32.MaxValue)
+        |> Map.ofList
+        |> Map.add start 0
 
-            if current <> goal then
+    let mutable prev = vertices |> List.map (fun v -> v, None) |> Map.ofList
 
-                let moveX = (current |> x) <> (goal |> x)
+    let findMinDistVertex =
+        Set.toList
+        >> List.sortBy (fun u -> distances.[u])
+        >> List.head
 
-                let next =
-                    if moveX then
-                        (current |> x |> moveTowards (goal |> x), current |> y)
-                    else
-                        (current |> x), current |> y |> moveTowards (goal |> y)
+    let rec searchUntilDone unvisited =
+        if unvisited |> Set.isEmpty then
+            ()
+        else
+            let u = unvisited |> findMinDistVertex
 
-                yield! walkTowardsGoal next
-        }
+            u
+            |> neighbors
+            |> List.filter (fun v -> unvisited |> Seq.contains v)
+            |> List.iter
+                (fun v ->
+                    let alt = distances.[u] + distance u v
 
-    walkTowardsGoal start |> Seq.toList
+                    if alt < distances.[v] then
+                        distances <- distances |> Map.add v alt
+                        prev <- prev |> Map.add v (Some u))
+
+            searchUntilDone (unvisited |> Set.remove u)
+
+    let rec makePath current =
+        match prev.[current] with
+        | Some prev -> (makePath prev) @ [ current ]
+        | None -> [ current ]
+
+    searchUntilDone (vertices |> Set.ofList)
+    makePath goal
