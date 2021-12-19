@@ -1,4 +1,6 @@
 # FDijkstra
+[![Nuget](https://img.shields.io/nuget/v/ComradeVanti.FDijkstra)](https://www.nuget.org/packages/ComradeVanti.FDijkstra)
+
 An F# implementation of Dijkstras algorithm
 
 The implementation works with all sorts of graphs as long as it fulfills the following requirements:
