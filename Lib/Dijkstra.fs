@@ -35,7 +35,7 @@ let solveAll start vertices neighbors distanceBetween =
         |> neighbors
         |> List.filter isUnvisited
         |> List.iter checkNeighbor
-    
+
     let rec searchUntilDone () =
         if unvisited |> Set.isEmpty then
             ()
