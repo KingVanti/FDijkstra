@@ -1,4 +1,7 @@
 # Changelog
+## 1.0.1
+### Fixed
+- Stackoverflow issue for very large graphs
 ## 1.0.0
 ### Added
 - Nuget-relevant metadata and files
