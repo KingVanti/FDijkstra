@@ -1,4 +1,7 @@
 # Changelog
+## 1.0.2
+### Changed
+- Optimized algorithm by using priority-queue
 ## 1.0.1
 ### Fixed
 - Stackoverflow issue for very large graphs
