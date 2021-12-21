@@ -36,6 +36,8 @@
     <ItemGroup>
         <Compile Include="Graph.fs"/>
         <Compile Include="GraphGen.fs"/>
+        <Compile Include="PrioQueueGen.fs"/>
+        <Compile Include="PrioQueueTests.fs"/>
         <Compile Include="DijkstraTests.fs"/>
         <Compile Include="Program.fs"/>
     </ItemGroup>

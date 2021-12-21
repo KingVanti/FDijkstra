@@ -26,6 +26,7 @@
     <ItemGroup>
         <Compile Include="TupleUtil.fs"/>
         <Compile Include="ListExt.fs"/>
+        <Compile Include="PrioQueue.fs"/>
         <Compile Include="Dijkstra.fs"/>
         <None Include="icon.png" Pack="true" Visible="false" PackagePath=""/>
     </ItemGroup>

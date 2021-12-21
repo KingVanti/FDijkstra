@@ -3,47 +3,43 @@ module ComradeVanti.FDijkstra.Dijkstra
 
 open System
 open Microsoft.FSharp.Collections
+open ComradeVanti.FDijkstra.PrioQueue
+open Microsoft.FSharp.Core
 
 let solveAll start vertices neighbors distanceBetween =
 
-    let mutable distances =
-        vertices
-        |> List.toMapWithValue Int32.MaxValue
-        |> Map.add start 0
+    let mutable queue = PrioQueue.empty
+    let mutable dists = Map.empty
+    let mutable prevs = Map.empty
 
-    let mutable prevs = vertices |> List.toMapWithValue None
-    let mutable unvisited = vertices |> Set.ofList
+    dists <- dists |> Map.add start 0
 
-    let distance v = distances |> Map.find v
+    vertices
+    |> List.iter
+        (fun v ->
+            if v <> start then
+                dists <- dists |> Map.add v Int32.MaxValue
 
-    let findMinDistVertex = Set.toList >> List.minBy distance
+            prevs <- prevs |> Map.add v None
+            queue <- queue |> PrioQueue.add v dists.[v])
 
-    let isUnvisited v = unvisited |> Seq.contains v
+    while not <| (queue |> PrioQueue.isEmpty) do
+        let u, newQueue = queue |> PrioQueue.tryPop
+        queue <- newQueue
+        let u = Option.get u
 
-    let check v =
-
-        unvisited <- unvisited |> Set.remove v
-
-        let checkNeighbor n =
-            let alt = (distance v) + distanceBetween v n
-
-            if alt < (distance n) then
-                distances <- distances |> Map.add n alt
-                prevs <- prevs |> Map.add n (Some v)
-
-        v
+        u
         |> neighbors
-        |> List.filter isUnvisited
-        |> List.iter checkNeighbor
+        |> List.filter (fun v -> queue |> PrioQueue.contains v)
+        |> List.iter
+            (fun v ->
+                let alt = dists.[u] + distanceBetween u v
 
-    let rec searchUntilDone () =
-        if unvisited |> Set.isEmpty then
-            ()
-        else
-            unvisited |> findMinDistVertex |> check
-            searchUntilDone ()
+                if alt < dists.[v] then
+                    dists <- dists |> Map.add v alt
+                    prevs <- prevs |> Map.add v (Some u)
+                    queue <- queue |> PrioQueue.changePrio v alt)
 
-    searchUntilDone ()
     prevs
 
 let solve start goal vertices neighbors distance =
