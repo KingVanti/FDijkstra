@@ -10,8 +10,8 @@
         <OutputType>Library</OutputType>
         <Company/>
         <Product/>
-        <AssemblyVersion>0.1.0</AssemblyVersion>
-        <FileVersion>0.1.0</FileVersion>
+        <AssemblyVersion>1.0.2</AssemblyVersion>
+        <FileVersion>1.0.2</FileVersion>
         <NeutralLanguage>en</NeutralLanguage>
     </PropertyGroup>
 
