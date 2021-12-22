@@ -8,17 +8,17 @@
         <AssemblyName>ComradeVanti.FDijkstra.Tests</AssemblyName>
         <RootNamespace>ComradeVanti.FDijkstra</RootNamespace>
         <OutputType>Library</OutputType>
-        <Company/>
-        <Product/>
+        <Company />
+        <Product />
         <AssemblyVersion>1.0.2</AssemblyVersion>
         <FileVersion>1.0.2</FileVersion>
         <NeutralLanguage>en</NeutralLanguage>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="FsCheck.Xunit" Version="2.16.3"/>
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4"/>
-        <PackageReference Include="xunit" Version="2.4.1"/>
+        <PackageReference Include="FsCheck.Xunit" Version="2.16.3" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
+        <PackageReference Include="xunit" Version="2.4.1" />
         <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
@@ -30,16 +30,14 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Lib\Lib.fsproj"/>
+        <ProjectReference Include="..\Lib\Lib.fsproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <Compile Include="Graph.fs"/>
-        <Compile Include="GraphGen.fs"/>
-        <Compile Include="PrioQueueGen.fs"/>
-        <Compile Include="PrioQueueTests.fs"/>
-        <Compile Include="DijkstraTests.fs"/>
-        <Compile Include="Program.fs"/>
+        <Compile Include="Graph.fs" />
+        <Compile Include="GraphGen.fs" />
+        <Compile Include="DijkstraTests.fs" />
+        <Compile Include="Program.fs" />
     </ItemGroup>
 
 </Project>

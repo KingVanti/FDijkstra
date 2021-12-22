@@ -14,7 +14,7 @@
         <PackageLicenseExpression>Unlicense</PackageLicenseExpression>
         <RepositoryUrl>https://github.com/KingVanti/FDijkstra</RepositoryUrl>
         <PackageTags>dijkstra, fsharp, algorithm, path, pathfinding, grid, graph</PackageTags>
-        <Company/>
+        <Company />
         <Product>FDijkstra</Product>
         <AssemblyVersion>1.0.2</AssemblyVersion>
         <FileVersion>1.0.2</FileVersion>
@@ -24,11 +24,14 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Compile Include="TupleUtil.fs"/>
-        <Compile Include="ListExt.fs"/>
-        <Compile Include="PrioQueue.fs"/>
-        <Compile Include="Dijkstra.fs"/>
-        <None Include="icon.png" Pack="true" Visible="false" PackagePath=""/>
+        <Compile Include="TupleUtil.fs" />
+        <Compile Include="ListExt.fs" />
+        <Compile Include="Dijkstra.fs" />
+        <None Include="icon.png" Pack="true" Visible="false" PackagePath="" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="OptimizedPriorityQueue" Version="5.1.0" />
     </ItemGroup>
 
 </Project>

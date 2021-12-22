@@ -9,6 +9,12 @@ open Microsoft.FSharp.Core
 [<Properties(Arbitrary = [| typeof<ArbGraphs> |])>]
 module DijkstraTests =
 
+    let private measure op =
+        let watch = System.Diagnostics.Stopwatch.StartNew()
+        op () |> ignore
+        watch.Stop()
+        watch.ElapsedTicks
+
     let private start = (0, 0)
 
     let private goal graph =
@@ -19,7 +25,7 @@ module DijkstraTests =
         |> List.filter (fun pos -> graph |> Graph.containsPos pos)
 
     let private weightIn graph pos =
-        graph |> Graph.tryGet pos |> Option.defaultValue 1000
+        graph |> Graph.tryGet pos |> Option.map float32 |> Option.defaultValue 1000f
 
     let private distanceIn graph _ pos2 = pos2 |> weightIn graph
 
@@ -96,7 +102,7 @@ module DijkstraTests =
 
         shortestLength = length
         |> Prop.label
-            $"\nFound:\t\t%A{path} (%d{length})\nShortest:\t%A{shortest} (%d{shortestLength})"
+            $"\nFound:\t\t%A{path} (%f{length})\nShortest:\t%A{shortest} (%f{shortestLength})"
 
     [<Property(MaxTest = 1)>]
     let ``Works for large graphs`` (LargeGraph graph) =

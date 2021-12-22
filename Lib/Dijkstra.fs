@@ -3,42 +3,48 @@ module ComradeVanti.FDijkstra.Dijkstra
 
 open System
 open Microsoft.FSharp.Collections
-open ComradeVanti.FDijkstra.PrioQueue
 open Microsoft.FSharp.Core
+open Priority_Queue
 
-let solveAll start vertices neighbors distanceBetween =
+type private Node<'a>(value: 'a) =
+    inherit FastPriorityQueueNode()
+    member this.Value = value
 
-    let mutable queue = PrioQueue.empty
+let private solveAll start vertices neighbors distanceBetween =
+
+    let mutable queue = FastPriorityQueue(vertices |> List.length)
     let mutable dists = Map.empty
     let mutable prevs = Map.empty
-
-    dists <- dists |> Map.add start 0
+    let mutable nodeByVertex = Map.empty
 
     vertices
     |> List.iter
         (fun v ->
+            let node = Node(v)
             if v <> start then
-                dists <- dists |> Map.add v Int32.MaxValue
+                dists <- dists |> Map.add v Single.MaxValue
+            else
+                dists <- dists |> Map.add v 0f
 
             prevs <- prevs |> Map.add v None
-            queue <- queue |> PrioQueue.add v dists.[v])
+            queue.Enqueue(node,  dists.[v])
+            nodeByVertex <- nodeByVertex |> Map.add v node)
 
-    while not <| (queue |> PrioQueue.isEmpty) do
-        let u, newQueue = queue |> PrioQueue.tryPop
-        queue <- newQueue
-        let u = Option.get u
-
-        u
+    while not <| (queue.Count = 0) do
+        let u = queue.Dequeue()
+        
+        u.Value
         |> neighbors
-        |> List.filter (fun v -> queue |> PrioQueue.contains v)
+        |> List.map (fun v -> nodeByVertex.[v])
+        |> List.filter queue.Contains
         |> List.iter
             (fun v ->
-                let alt = dists.[u] + distanceBetween u v
+                let alt = dists.[u.Value] + distanceBetween u.Value v.Value
 
-                if alt < dists.[v] then
-                    dists <- dists |> Map.add v alt
-                    prevs <- prevs |> Map.add v (Some u)
-                    queue <- queue |> PrioQueue.changePrio v alt)
+                if alt < dists.[v.Value] then
+                    dists <- dists |> Map.add v.Value alt
+                    prevs <- prevs |> Map.add v.Value (Some u.Value)
+                    queue.UpdatePriority(v, alt))
 
     prevs
 
