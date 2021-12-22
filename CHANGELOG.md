@@ -1,4 +1,7 @@
 # Changelog
+## 1.0.3
+### Changed
+- Optimized algorithm by using better priority-queue
 ## 1.0.2
 ### Changed
 - Optimized algorithm by using priority-queue
