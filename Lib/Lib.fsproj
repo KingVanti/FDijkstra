@@ -7,7 +7,7 @@
         <AssemblyName>ComradeVanti.FDijkstra.Lib</AssemblyName>
         <RootNamespace>ComradeVanti.FDijkstra</RootNamespace>
         <PackageId>ComradeVanti.FDijkstra</PackageId>
-        <PackageVersion>1.0.2</PackageVersion>
+        <PackageVersion>1.0.3</PackageVersion>
         <Title>FDijkstra</Title>
         <Authors>ComradeVanti</Authors>
         <Description>An F# implementation of Dijkstras algorithm</Description>
@@ -16,8 +16,8 @@
         <PackageTags>dijkstra, fsharp, algorithm, path, pathfinding, grid, graph</PackageTags>
         <Company />
         <Product>FDijkstra</Product>
-        <AssemblyVersion>1.0.2</AssemblyVersion>
-        <FileVersion>1.0.2</FileVersion>
+        <AssemblyVersion>1.0.3</AssemblyVersion>
+        <FileVersion>1.0.3</FileVersion>
         <NeutralLanguage>en</NeutralLanguage>
         <IncludeSymbols>true</IncludeSymbols>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
