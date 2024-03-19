@@ -3,6 +3,11 @@
 
 An F# implementation of Dijkstras algorithm
 
+**⚠️ Development is paused ⚠️**  
+No new features will be added or bugs fixed unless requested through an issue.  
+If you wish to fork this repository and continue the work, you are very welcome
+to do so.
+
 The implementation works with all sorts of graphs as long as it fulfills the following requirements:
 - It has vertices
 - It can find vertices connected to a specific vertex
